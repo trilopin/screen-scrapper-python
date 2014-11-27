@@ -1,4 +1,13 @@
-cd /opt && wget --no-check-certificate https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2 && tar xvjf phantomjs-1.9.8-linux-i686.tar.bz2
-apt-get install redis-server fontconfig ttf-mscorefonts-installer
-export C_FORCE_ROOT=1
-/etc/init.d/redis-server start
+Screen scrapper in python
+
+This code are just for fun, and learn.
+
+I have developed scrapper through PhantomJS as system call.
+Jobs are asynchronously processed via celery and stored in redis.
+
+TODO:
+
+optimize images
+tornado/webpy microservice for enqueue jobs and retrieve images
+drop old images in redis with periodic task in celery
+
