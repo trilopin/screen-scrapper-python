@@ -1,5 +1,5 @@
 celery[redis]
-selenium
 Pillow
 redis
-flower
+Flask
+Jinja2

@@ -1,21 +1,48 @@
-Screen scrapper in python
+# Screen scrapper in python
 
-This code are just for fun, and learn.
+DISCLAIMER:
 
-I have developed scrapper through PhantomJS as system call.
+This code are just for fun and learn.
+Still in very early stage.
+It will be updated without backwards compatibility.
+
+Based in two components:
+
+  * simple screen scrapper lib
+  * web microapp that enqueue and visualize screenshot jobs
+
+###Screen scrapper lib###
+
+Screenshots are made with phantomjs browser.
+
 Jobs are asynchronously processed via celery and stored in redis.
 
-RUN WITH DOCKER
+###Web microapp###
+
+Screenshots
+*Jobs are asynchronously processed via celery and stored in redis.
+
+##RUN WITH DOCKER###
 
 start redis (https://registry.hub.docker.com/_/redis/)
+
+```bash
 sudo docker run --name some-redis -d redis
+```
 
-start app
-sudo docker run -t -i -p 5000:5000 --link some-redis:redis -v /home/jpeso/git-projects/python/:/app python/scrapper /bin/bash
+start app (after build)
+```bash
+sudo docker run -t -i -p 5000:5000 --link some-redis:redis -v LOCAL_APP:/app python/scrapper /bin/bash
+```
 
-TODO:
+app run
+```bash
+celery -A screenscrapper.tasks worker
+python server.py
+```
+##TODO###
 
-optimize images
-tornado/webpy microservice for enqueue jobs and retrieve images
-drop old images in redis with periodic task in celery
-
+  * optimize images, saving memory and network bandwitch
+  * web layer with style
+  * store metadata in redis: datetime, sizes by each url
+  * drop old images in redis with periodic task in celery

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Responsive check tool by Screenshot</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700,300italic' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <script src="/assets/js/modernizr.js"></script>
+</head>
+<body>
+    <div id="preloader">
+        <img src="/assets/img/loader.gif" alt="Loading" id="loading-img">
+    </div>
+
+    <section class="form">
+        <div class="overlay" style="padding-top:10%">
+            <h1>CHECK YOUR RESPONSIVE STATUS<br/> BY SCREENSHOTS</h1>
+            <p><b>TYPE URL FOR START TESTS</b></p>
+            <div class="clear">&nbsp;</div>
+            <form action="#" method="post" class="validate" id="screenshot">
+            <div class="row">
+               <input type="url" value="" name="url" id="url" class="url col-md-5 col-md-offset-3" placeholder="http://www.amazon.com" required>
+               <textarea style="display:none" name="sizes" id="sizes">
+1600x800
+1280x800
+1024x768
+720x468
+468x720
+               </textarea>
+               <input type="submit" value="TAKE SCREENSHOT" class="col-md-2 button">
+            </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="screenshots" class="screenshots" style="padding-top:100px;display:none">
+        <div class="col-md-offset-1 col-md-10">
+        </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="text/Javascript">
+    $(function(){
+
+      "use strict";
+
+      // Preloader
+      $( window ).load(function() {
+          $("#loading-img").fadeOut();
+          $("#preloader").delay(400).fadeOut("slow");
+      });
+
+      $(document).ready(function(){
+
+        $('#screenshot').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: this.action,
+                data: { 'url': $('#url').val(),
+                        'sizes': $('#sizes').val(),
+                },
+                success: function(data,status) {
+                    //console.dir(data);
+                    var k = 0;
+                    var html = '';
+                    for(k in data.images) {
+                        html =   '<div class="col-sm-6 col-md-4">'+
+                                '<div class="thumbnail no-border">'+
+                                  '<img class="img-responsive" src="'+data.images[k]['src']+'" style="height:300px">'+
+                                  '<div class="caption">'+
+                                    '<h3>'+data.images[k]['size']['width']+'x'+data.images[k]['size']['height']+'</h3>'+
+                                  '</div>'+
+                                '</div>'+
+                              '</div>';
+                        $('section.screenshots').append(html);
+                    }
+                    $('section.screenshots').show();
+                    location.hash = '#screenshots';
+
+                },
+                dataType: 'json'
+            });
+
+        });
+
+      });
+
+    });
+
+
+    </script>
+</body>
+</html>

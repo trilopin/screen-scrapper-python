@@ -3,6 +3,7 @@ from PIL import Image
 import redis
 import StringIO
 import uuid
+from screenscrapper.util import validate_url
 
 
 class ScreenShot(object):
@@ -15,10 +16,16 @@ class ScreenShot(object):
         if 'redis' in kwargs.keys():
             self.redis = kwargs['redis']
 
+    def get(self,url,size):
+        red = redis.StrictRedis(host=self.redis)
+        return red.get(self._unique_key(url, size))
+
     def take(self,url,size):
         """Take screenshot"""
-        print "Take {0} - {1}".format(url,size['width'])
+        if not validate_url(url):
+            return
         tmpname = self._unique_path(size)
+        print url
         script = os.path.dirname(os.path.abspath(__file__)) + \
                     '/take_screenshot.js'
         command = self.phantom + " " + \
@@ -37,15 +44,15 @@ class ScreenShot(object):
 
     def _unique_key(self, url, size):
         """Key for redis store"""
-        return '{0}||=>w={1}&h={2}'.format(url,
-                                           size['width'],
-                                           size['height'])
+        return '{1}x{2}__{0}'.format(url.replace('http://','').strip(),
+                                     size['width'],
+                                     size['height'])
 
     def _store_image(self, url, size, filename):
         """Store image in redis"""
         output = StringIO.StringIO()
         image = Image.open(filename)
-        image.save(output, format=image.format, optimize=True)
+        image.save(output, format=image.format, optimize=True, quality=80)
         red = redis.StrictRedis(host=self.redis)
         red.set(self._unique_key(url, size), output.getvalue())
         output.close()
