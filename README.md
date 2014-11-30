@@ -43,6 +43,6 @@ python server.py
 ##TODO###
 
   * optimize images, saving memory and network bandwitch
-  * web layer with style
+  * more info in web layer
   * store metadata in redis: datetime, sizes by each url
   * drop old images in redis with periodic task in celery
