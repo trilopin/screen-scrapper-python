@@ -97,6 +97,11 @@ h1 {
 	letter-spacing: 2px;
 }
 
+h3 {
+	font-size: 1.2em;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
 
 a,
 body {
@@ -174,6 +179,7 @@ input[type=url] {
 	outline: none;
 	text-transform: lowercase;
 	color: #333;
+	opacity: 0.9;
 
 }
 input[type=submit] {

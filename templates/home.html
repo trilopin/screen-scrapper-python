@@ -20,19 +20,24 @@
     <section class="form">
         <div class="overlay" style="padding-top:10%">
             <h1>CHECK YOUR RESPONSIVE STATUS<br/> BY SCREENSHOTS</h1>
+            <div class="clear" style="margin-top:50px">&nbsp;</div>
             <p><b>TYPE URL FOR START TESTS</b></p>
-            <div class="clear">&nbsp;</div>
+            <div class="clear" style="margin-top:20px">&nbsp;</div>
             <form action="#" method="post" class="validate" id="screenshot">
             <div class="row">
-               <input type="url" value="" name="url" id="url" class="url col-md-5 col-md-offset-3" placeholder="http://www.amazon.com" required>
+               <input type="url" value="" name="url" id="url"
+                      class="url col-xs-offset-2 col-xs-6 col-sm-offset-3 col-sm-6 col-md-5 col-md-offset-3 col-sm-offset-4"
+                      placeholder="http://www.amazon.com" required>
+               <input type="submit" value="CHECK" class="col-xs-2 col-sm-1 button">
                <textarea style="display:none" name="sizes" id="sizes">
-1600x800
+1920x1080
+1600x900
+1440x900
 1280x800
 1024x768
-720x468
-468x720
+768x1280
+640x1136
                </textarea>
-               <input type="submit" value="TAKE SCREENSHOT" class="col-md-2 button">
             </div>
             </form>
         </div>
@@ -73,13 +78,13 @@
                     for(k in data.images) {
                         html =   '<div class="col-sm-6 col-md-4">'+
                                 '<div class="thumbnail no-border">'+
-                                  '<img class="img-responsive" src="'+data.images[k]['src']+'" style="height:300px">'+
                                   '<div class="caption">'+
                                     '<h3>'+data.images[k]['size']['width']+'x'+data.images[k]['size']['height']+'</h3>'+
                                   '</div>'+
+                                  '<img class="img-responsive" src="'+data.images[k]['src']+'" style="height:300px">'+
                                 '</div>'+
                               '</div>';
-                        $('section.screenshots').append(html);
+                        setTimeout(function(){$('section.screenshots').append(html)}, 1000);
                     }
                     $('section.screenshots').show();
                     location.hash = '#screenshots';
